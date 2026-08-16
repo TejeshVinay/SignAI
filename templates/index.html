@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignAI — Multimodal Sign Language & Emotion Intelligence</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo" data-page="home">
+                <div class="logo-icon">
+                    <i class="fas fa-hands-asl-interpreting"></i>
+                </div>
+                <span class="logo-text">Sign<span class="logo-accent">AI</span></span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="nav-link active" data-page="home"><i
+                            class="fas fa-home"></i><span>Home</span></a></li>
+                <li><a href="#" class="nav-link" data-page="detection"><i class="fas fa-video"></i><span>Live
+                            Detection</span></a></li>
+                <li><a href="#" class="nav-link" data-page="transcript"><i
+                            class="fas fa-file-alt"></i><span>Transcript</span></a></li>
+                <li><a href="#" class="nav-link" data-page="learn"><i class="fas fa-graduation-cap"></i><span>Learn
+                            ASL</span></a></li>
+                <li><a href="#" class="nav-link" data-page="analytics"><i
+                            class="fas fa-chart-line"></i><span>Analytics</span></a></li>
+                <li><a href="#" class="nav-link" data-page="help"><i
+                            class="fas fa-question-circle"></i><span>Help</span></a></li>
+            </ul>
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="mobile-toggle" id="mobileToggle">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===================== PAGE: HOME ===================== -->
+    <section class="page active" id="page-home">
+        <div class="hero">
+            <div class="hero-bg-effects">
+                <div class="hero-orb orb-1"></div>
+                <div class="hero-orb orb-2"></div>
+                <div class="hero-orb orb-3"></div>
+            </div>
+            <div class="container hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-sparkles"></i> AI-Powered Communication
+                </div>
+                <h1 class="hero-title">
+                    Multimodal Sign Language<br>
+                    <span class="gradient-text">& Emotion Intelligence</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Breaking communication barriers with real-time sign language detection,
+                    emotion recognition, and AI-powered interpretation — all in one unified platform.
+                </p>
+                <div class="hero-cta">
+                    <button class="btn btn-primary btn-lg" data-page="detection">
+                        <i class="fas fa-play"></i> Start Live Detection
+                    </button>
+                    <button class="btn btn-outline btn-lg" data-page="learn">
+                        <i class="fas fa-book-open"></i> Learn ASL
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">26+</span>
+                        <span class="stat-label">ASL Signs</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">7</span>
+                        <span class="stat-label">Emotions</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">Real-time</span>
+                        <span class="stat-label">Detection</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section" id="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Core Capabilities</h2>
+                    <p class="section-desc">Four pillars of intelligent communication assistance</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon" style="--accent: #6C63FF;">
+                            <i class="fas fa-hand-sparkles"></i>
+                        </div>
+                        <h3>Real-time Sign Detection</h3>
+                        <p>Advanced computer vision models detect ASL gestures with high accuracy using MediaPipe and
+                            custom-trained classifiers.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="--accent: #FF6B6B;">
+                            <i class="fas fa-face-smile-beam"></i>
+                        </div>
+                        <h3>Emotion Recognition</h3>
+                        <p>Deep learning-based facial emotion analysis detects 7 core emotions to add emotional context
+                            to communication.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="--accent: #00D9FF;">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>AI Interpretation</h3>
+                        <p>LLM-powered sentence generation transforms detected signs and emotions into meaningful,
+                            context-aware sentences.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon" style="--accent: #4ECB71;">
+                            <i class="fas fa-universal-access"></i>
+                        </div>
+                        <h3>Assistive Communication</h3>
+                        <p>Text-to-speech output, editable transcripts, and session history make communication
+                            accessible for everyone.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section section-alt">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Built With</h2>
+                    <p class="section-desc">Industry-standard tools and frameworks</p>
+                </div>
+                <div class="tech-badges">
+                    <div class="tech-badge"><i class="fab fa-python"></i> Python</div>
+                    <div class="tech-badge"><i class="fas fa-flask"></i> Flask</div>
+                    <div class="tech-badge"><i class="fas fa-eye"></i> OpenCV</div>
+                    <div class="tech-badge"><i class="fas fa-hand"></i> MediaPipe</div>
+                    <div class="tech-badge"><i class="fas fa-network-wired"></i> TensorFlow</div>
+                    <div class="tech-badge"><i class="fas fa-robot"></i> LLM / Gemini</div>
+                    <div class="tech-badge"><i class="fab fa-html5"></i> HTML5</div>
+                    <div class="tech-badge"><i class="fab fa-css3-alt"></i> CSS3</div>
+                    <div class="tech-badge"><i class="fab fa-js"></i> JavaScript</div>
+                    <div class="tech-badge"><i class="fas fa-chart-bar"></i> Chart.js</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="container">
+                <div class="impact-card">
+                    <div class="impact-content">
+                        <div class="impact-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h2>Making Communication Accessible</h2>
+                        <p>Over 70 million deaf people worldwide use sign language as their primary language.
+                            This system bridges the gap between sign language users and non-signers,
+                            enabling seamless, emotion-aware communication powered by artificial intelligence.</p>
+                        <div class="impact-stats">
+                            <div><strong>466M+</strong><br>People with hearing loss</div>
+                            <div><strong>70M+</strong><br>Sign language users</div>
+                            <div><strong>300+</strong><br>Sign languages globally</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-brand">
+                        <div class="nav-logo">
+                            <div class="logo-icon"><i class="fas fa-hands-asl-interpreting"></i></div>
+                            <span class="logo-text">Sign<span class="logo-accent">AI</span></span>
+                        </div>
+                        <p>Multimodal AI for accessible communication</p>
+                    </div>
+                    <div class="footer-links">
+                        <a href="https://github.com" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="#"><i class="fas fa-file-pdf"></i> Documentation</a>
+                        <a href="#"><i class="fas fa-envelope"></i> Contact</a>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2025 SignAI — Built with <i class="fas fa-heart" style="color:#FF6B6B;"></i> for
+                        accessibility</p>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- ===================== PAGE: LIVE DETECTION ===================== -->
+    <section class="page" id="page-detection">
+        <div class="container detection-container">
+            <div class="detection-header">
+                <h1><i class="fas fa-video"></i> Live Detection</h1>
+                <div class="camera-status" id="cameraStatus">
+                    <span class="status-dot offline"></span>
+                    <span class="status-text">Camera OFF</span>
+                </div>
+            </div>
+
+            <div class="video-section">
+                <div class="video-wrapper" id="videoWrapper">
+                    <div class="video-overlay-info">
+                        <div class="overlay-tag sign-tag" id="overlaySign">
+                            <i class="fas fa-hand"></i> Sign: <span>—</span>
+                        </div>
+                        <div class="overlay-tag emotion-tag" id="overlayEmotion">
+                            <i class="fas fa-face-smile"></i> Emotion: <span>—</span>
+                        </div>
+                    </div>
+                    <div class="video-container" id="videoContainer">
+                        <div class="camera-off-state" id="cameraOffState">
+                            <div class="camera-off-icon">
+                                <i class="fas fa-video-slash"></i>
+                            </div>
+                            <p>Camera is currently off</p>
+                            <span>Click "Open Camera" to begin detection</span>
+                        </div>
+                        <!-- CHANGE 1: Added src="" to img tag -->
+                        <video id="videoStream" autoplay playsinline muted
+                            style="display:none; width:100%; height:100%; object-fit:cover;"></video>
+                        <canvas id="captureCanvas" width="640" height="480" style="display:none;"></canvas>
+                    </div>
+                    <div class="video-controls">
+                        <button class="btn btn-primary btn-lg" id="btnOpenCamera">
+                            <i class="fas fa-video"></i> Open Camera
+                        </button>
+                        <button class="btn btn-danger btn-lg" id="btnStopCamera" style="display:none;">
+                            <i class="fas fa-stop"></i> Stop Camera
+                        </button>
+                        <span class="control-hint" id="controlHint" style="display:none;">
+                            Press <kbd>Q</kbd> or <kbd>ESC</kbd> to stop
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detection-panels">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-hand-sparkles"></i> Detected Signs</h3>
+                        <span class="panel-badge" id="signCount">0</span>
+                    </div>
+                    <div class="panel-body scroll-area" id="signPanel">
+                        <div class="empty-state">
+                            <i class="fas fa-hand"></i>
+                            <p>Signs will appear here during detection</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-face-smile-beam"></i> Detected Emotions</h3>
+                        <span class="panel-badge" id="emotionCount">0</span>
+                    </div>
+                    <div class="panel-body scroll-area" id="emotionPanel">
+                        <div class="empty-state">
+                            <i class="fas fa-face-smile"></i>
+                            <p>Emotions will appear here during detection</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="builder-section">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-pen-to-square"></i> Sentence Builder</h3>
+                        <button class="btn btn-sm btn-ghost" id="btnClearSentence">
+                            <i class="fas fa-eraser"></i> Clear
+                        </button>
+                    </div>
+                    <div class="panel-body">
+                        <textarea class="sentence-input" id="sentenceBuilder"
+                            placeholder="Detected signs will form a sentence here. You can also edit manually..."></textarea>
+                        <div class="word-chips" id="wordChips"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interpret-section">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-brain"></i> AI Interpretation</h3>
+                    </div>
+                    <div class="panel-body">
+                        <button class="btn btn-primary btn-lg btn-full" id="btnInterpret">
+                            <i class="fas fa-wand-magic-sparkles"></i> Generate Meaningful Interpretation
+                        </button>
+                        <div class="ai-response" id="aiResponse" style="display:none;">
+                            <div class="ai-response-header">
+                                <i class="fas fa-robot"></i> AI Response
+                            </div>
+                            <div class="ai-response-body" id="aiResponseText"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tts-section">
+                <div class="panel-card">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-volume-high"></i> Text to Speech</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tts-controls">
+                            <div class="tts-text" id="ttsText">
+                                <p class="tts-placeholder">Generated sentence will appear here for playback</p>
+                            </div>
+                            <div class="tts-actions">
+                                <select class="tts-voice-select" id="voiceSelect">
+                                    <option value="default">Default Voice</option>
+                                </select>
+                                <button class="btn btn-primary" id="btnPlayAudio">
+                                    <i class="fas fa-play"></i> Play Audio
+                                </button>
+                                <button class="btn btn-ghost" id="btnStopAudio">
+                                    <i class="fas fa-stop"></i> Stop
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PAGE: TRANSCRIPT ===================== -->
+    <section class="page" id="page-transcript">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-file-alt"></i> Transcript & Session History</h1>
+                <p>View, edit, and export your detection sessions</p>
+            </div>
+            <div class="transcript-actions">
+                <button class="btn btn-primary" id="btnExportAll">
+                    <i class="fas fa-download"></i> Export All
+                </button>
+                <button class="btn btn-outline" id="btnClearHistory">
+                    <i class="fas fa-trash"></i> Clear History
+                </button>
+            </div>
+            <div class="transcript-list" id="transcriptList">
+                <div class="empty-state-large" id="transcriptEmpty">
+                    <i class="fas fa-inbox"></i>
+                    <h3>No Sessions Yet</h3>
+                    <p>Start a live detection session to see transcripts here</p>
+                    <button class="btn btn-primary" data-page="detection">
+                        <i class="fas fa-video"></i> Start Detection
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PAGE: LEARN ASL ===================== -->
+    <section class="page" id="page-learn">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-graduation-cap"></i> Learn ASL</h1>
+                <p>Master American Sign Language alphabets with interactive tiles</p>
+            </div>
+            <div class="learn-controls">
+                <button class="btn btn-primary" id="btnPracticeMode">
+                    <i class="fas fa-dumbbell"></i> Practice Mode
+                </button>
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search letter..." id="letterSearch">
+                </div>
+            </div>
+            <div class="asl-grid" id="aslGrid"></div>
+            <div class="modal-overlay" id="practiceModal" style="display:none;">
+                <div class="modal-card">
+                    <button class="modal-close" id="closePractice"><i class="fas fa-times"></i></button>
+                    <div class="practice-content">
+                        <h2><i class="fas fa-dumbbell"></i> Practice Mode</h2>
+                        <p>Show the sign for this letter:</p>
+                        <div class="practice-letter" id="practiceLetter">A</div>
+                        <div class="practice-hand" id="practiceHand"></div>
+                        <div class="practice-actions">
+                            <button class="btn btn-outline" id="btnPrevLetter">
+                                <i class="fas fa-arrow-left"></i> Previous
+                            </button>
+                            <button class="btn btn-primary" id="btnNextLetter">
+                                Next <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                        <p class="practice-hint">
+                            <i class="fas fa-info-circle"></i>
+                            Future: Real-time correctness feedback via webcam
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PAGE: ANALYTICS ===================== -->
+    <section class="page" id="page-analytics">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-chart-line"></i> Analytics Dashboard</h1>
+                <p>Insights from your detection sessions</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="--accent:#6C63FF;"><i class="fas fa-clock"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-value" id="totalSessions">0</span>
+                        <span class="stat-card-label">Total Sessions</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="--accent:#4ECB71;"><i class="fas fa-hand"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-value" id="totalSigns">0</span>
+                        <span class="stat-card-label">Signs Detected</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="--accent:#FF6B6B;"><i class="fas fa-face-smile"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-value" id="dominantEmotion">—</span>
+                        <span class="stat-card-label">Dominant Emotion</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-card-icon" style="--accent:#00D9FF;"><i class="fas fa-stopwatch"></i></div>
+                    <div class="stat-card-info">
+                        <span class="stat-card-value" id="avgDuration">0s</span>
+                        <span class="stat-card-label">Avg Duration</span>
+                    </div>
+                </div>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-timeline"></i> Emotion Timeline</h3>
+                    </div>
+                    <div class="chart-body"><canvas id="emotionTimeline"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-pie"></i> Emotion Distribution</h3>
+                    </div>
+                    <div class="chart-body"><canvas id="emotionDistribution"></canvas></div>
+                </div>
+                <div class="chart-card chart-full">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-chart-bar"></i> Sign Usage Frequency</h3>
+                    </div>
+                    <div class="chart-body"><canvas id="signFrequency"></canvas></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== PAGE: HELP ===================== -->
+    <section class="page" id="page-help">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-question-circle"></i> Help & Documentation</h1>
+                <p>Everything you need to know about using SignAI</p>
+            </div>
+            <div class="help-grid">
+                <div class="help-card">
+                    <div class="help-card-header"><i class="fas fa-play-circle"></i>
+                        <h3>How to Use</h3>
+                    </div>
+                    <div class="help-card-body">
+                        <ol class="help-steps">
+                            <li>Navigate to <strong>Live Detection</strong> page</li>
+                            <li>Click <strong>"Open Camera"</strong> to start your webcam</li>
+                            <li>Position yourself in front of the camera with good lighting</li>
+                            <li>Perform ASL signs — detections appear in real-time</li>
+                            <li>Review the <strong>Sentence Builder</strong> for accumulated text</li>
+                            <li>Click <strong>"Generate Meaningful Interpretation"</strong> for AI-powered output</li>
+                            <li>Use <strong>"Play Audio"</strong> to hear the generated sentence</li>
+                            <li>Press <strong>Q</strong> or <strong>ESC</strong> to stop the camera</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="help-card">
+                    <div class="help-card-header"><i class="fas fa-hand"></i>
+                        <h3>Supported Signs</h3>
+                    </div>
+                    <div class="help-card-body">
+                        <div class="tag-cloud">
+                            <span class="tag">A</span><span class="tag">B</span><span class="tag">C</span>
+                            <span class="tag">D</span><span class="tag">E</span><span class="tag">F</span>
+                            <span class="tag">G</span><span class="tag">H</span><span class="tag">I</span>
+                            <span class="tag">J</span><span class="tag">K</span><span class="tag">L</span>
+                            <span class="tag">M</span><span class="tag">N</span><span class="tag">O</span>
+                            <span class="tag">P</span><span class="tag">Q</span><span class="tag">R</span>
+                            <span class="tag">S</span><span class="tag">T</span><span class="tag">U</span>
+                            <span class="tag">V</span><span class="tag">W</span><span class="tag">X</span>
+                            <span class="tag">Y</span><span class="tag">Z</span>
+                            <span class="tag special">SPACE</span>
+                            <span class="tag special">DELETE</span>
+                            <span class="tag special">NOTHING</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="help-card">
+                    <div class="help-card-header"><i class="fas fa-face-smile-beam"></i>
+                        <h3>Supported Emotions</h3>
+                    </div>
+                    <div class="help-card-body">
+                        <div class="emotion-list-help">
+                            <div class="emotion-item-help"><span class="emotion-emoji">😊</span> Happy</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">😢</span> Sad</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">😠</span> Angry</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">😲</span> Surprise</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">😨</span> Fear</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">🤢</span> Disgust</div>
+                            <div class="emotion-item-help"><span class="emotion-emoji">😐</span> Neutral</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="help-card">
+                    <div class="help-card-header"><i class="fas fa-lightbulb"></i>
+                        <h3>Camera & Lighting Tips</h3>
+                    </div>
+                    <div class="help-card-body">
+                        <ul class="help-tips">
+                            <li><i class="fas fa-check"></i> Use a well-lit room with even lighting</li>
+                            <li><i class="fas fa-check"></i> Avoid backlighting (don't sit with a window behind you)
+                            </li>
+                            <li><i class="fas fa-check"></i> Keep your hands within the camera frame</li>
+                            <li><i class="fas fa-check"></i> Use a plain background for best results</li>
+                            <li><i class="fas fa-check"></i> Position camera at face/chest level</li>
+                            <li><i class="fas fa-check"></i> Ensure your face is visible for emotion detection</li>
+                            <li><i class="fas fa-times"></i> Avoid fast movements — hold signs briefly</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="help-card help-card-full">
+                    <div class="help-card-header"><i class="fas fa-shield-halved"></i>
+                        <h3>Privacy & Data Usage</h3>
+                    </div>
+                    <div class="help-card-body">
+                        <div class="privacy-content">
+                            <div class="privacy-item">
+                                <i class="fas fa-video-slash"></i>
+                                <div><strong>No Video Storage</strong>
+                                    <p>Video streams are processed in real-time and never stored on any server.</p>
+                                </div>
+                            </div>
+                            <div class="privacy-item">
+                                <i class="fas fa-database"></i>
+                                <div><strong>Local Processing</strong>
+                                    <p>All detection happens locally. Session data is stored only in your browser.</p>
+                                </div>
+                            </div>
+                            <div class="privacy-item">
+                                <i class="fas fa-user-shield"></i>
+                                <div><strong>Your Data, Your Control</strong>
+                                    <p>You can delete all session history at any time from the Transcript page.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script type="module">
+        import * as mpVision from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+        window.mpVision = mpVision;
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="/static/app.js"></script>
+</body>
+
+</html>

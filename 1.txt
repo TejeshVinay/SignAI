@@ -1,181 +1,249 @@
+Read PRD.md and DESIGN.md completely before doing anything.
 
-AI Engineering: Comprehensive Concepts & Practices
-To excel as an AI engineer, you must master both conceptual design and practical implementation. This guide covers end-to-end topics—problem solving, AI/ML fundamentals, generative AI, system design, software engineering, data engineering, evaluation, explainability, and more—each with real-world tools and examples.
+Your task is to create ARCHITECTURE.md for this project.
 
-Problem Solving & Requirement Analysis
-Clarify requirements: Begin by understanding the business need. Ask who the user is, what problem they face, and what success looks like. Gather both functional requirements (features the system must provide) and non-functional requirements (scalability, latency, security, cost, etc.). For instance, a credit-fraud detector needs high recall (catch all frauds) while minimizing false positives (good customers declined) – this trade-off must be clear up front.
-Align solution to problem: Only use AI/ML if simpler approaches won’t suffice. If clear rules or SQL can solve the problem reliably, they may be preferable. AI should address a gap (e.g. pattern recognition beyond rule-based logic) not be a gimmick.
-High-level design first: Sketch a system architecture (clients, APIs, databases, ML components) early. Divide the system into modules or microservices (e.g. authentication, data ingestion, inference service) and define how data flows between them. This top-down view helps spot bottlenecks and dependencies before coding.
-Trade-offs & constraints: Explain and document your choices. For every decision (e.g. using an LLM vs. a decision tree), state why: cost vs. accuracy vs. latency vs. data availability. As one guide puts it: “there’s no single correct solution—multiple valid approaches can exist,” so clarifying trade-offs is key.
-Iterate & refine: Design iteratively. Start with core functionality, then progressively add details (e.g. scale-up vs scale-out strategies, caching layers). Use diagrams and short bullet points. System design interviews often emphasize asking clarifying questions, sketching a simple solution, then gradually adding complexity.
-Key non-functional goals: Always consider scalability, performance, reliability, security, and maintainability. For example, a web API should be stateless to allow easy horizontal scaling, and data (like user info) should be encrypted and access-controlled. Designing for these up front saves costly rework later.
-Example: If asked to build a fraud-detection system, you would first clarify what “fraud” means (patterns, data available), then outline modules: a data ingestion service, feature extractor, ML inference service, database, alerting queue, etc. You’d also ask about volume: “If transaction volume triples, how should we scale?” This structured approach shows you solved the right problem in the right way.
+PRD.md is the source of truth for WHAT the system must achieve.
+DESIGN.md is the source of truth for the intended system behavior and user flows.
 
-AI/ML Foundations & Generative AI
-Machine Learning types: Know the difference between supervised learning (labeled data, tasks like classification and regression) and unsupervised learning (discovering structure in unlabeled data, e.g. clustering or anomaly detection). For example, anomaly detection flags outliers (e.g. credit-card fraud, network intrusions) using techniques like isolation forests or one-class SVMs. In practice, ML pipelines involve data cleaning, feature engineering, model training, and validation. Libraries like scikit-learn, XGBoost, TensorFlow or PyTorch are used to implement these models.
+Your job is to translate those requirements and design decisions into a practical technical architecture.
 
-Model selection & metrics: Choose models based on data and requirements (e.g. decision trees or random forests for tabular data; convolutional nets for images). Always evaluate with appropriate metrics. For classification, common metrics are accuracy, precision, recall, F1-score, and ROC-AUC. The choice depends on business cost of errors: e.g. if false positives are costly (loan approvals), optimize precision; if missing true cases is costly (spam detection), optimize recall. Regression models use MSE/RMSE or MAE. Always validate on held-out data to detect overfitting.
+Important:
+- Do NOT write implementation code.
+- Do NOT change PRD.md or DESIGN.md.
+- Do not invent unnecessary functionality.
+- Clearly distinguish requirements from architectural decisions and assumptions.
+- Prefer a simple, maintainable architecture appropriate for an MVP.
+- Identify trade-offs rather than blindly choosing technologies.
+- If an architectural decision cannot be made from the available information, mark it as an open question.
 
-Generative AI (LLMs): Generative models like large language models (LLMs) (e.g. GPT-4, Claude, Llama) produce new text. Key concepts include tokens (LLMs operate on token sequences), context window size (how many tokens the model can consider at once), temperature/top-p (controls randomness), and prompt engineering (crafting inputs to elicit desired output). Tools: Python libraries such as OpenAI’s API client, Hugging Face Transformers, or Ollama. Fine-tuning adapts a model to a domain but can be costly.
+ARCHITECTURE.md should contain:
 
-Embeddings: Converting text (or images) into high-dimensional vectors captures semantic meaning. Embedding models (e.g. OpenAI’s text-embedding models, Sentence Transformers) map similar inputs to nearby vectors. In RAG, both documents and queries are embedded; the system finds nearest documents by vector similarity. For example, “machine learning” and “AI” might have close embeddings.
+1. Architecture Overview
+   - System purpose
+   - Architecture style
+   - High-level component overview
 
-Retrieval-Augmented Generation (RAG): RAG is a technique that grounds LLMs in external data. Instead of relying solely on the model’s fixed training, RAG retrieves relevant documents (e.g. company policy, knowledge base) and includes them in the prompt. This “open-book” approach ensures up-to-date, factual answers. A typical RAG pipeline:
+2. Architecture Principles
+   - Key principles guiding the implementation
+   - Simplicity, modularity, security, testability, etc.
 
-Document processing: Split source texts (PDFs, databases) into chunks.
-Embedding & indexing: Embed chunks and store vectors in a vector database (e.g. Qdrant, Pinecone, Redis with PGVector, Chroma).
-Retrieval: For a user query, embed it and search the vector DB for nearest chunks.
-Generation: Pass the retrieved context + query to the LLM to produce an answer.
-RAG is especially useful when data changes frequently, because you can update the index without retraining the model. It also gives transparency: you can show source links and reduce hallucinations by “forcing” the model to cite actual facts.
+3. System Context
+   - Users
+   - External systems/services
+   - Inputs and outputs
+   - System boundaries
 
-Agents & Tool Use: An AI agent is an LLM-based system that not only generates text, but acts on its environment (calls APIs, runs code, queries a database). For example, an agent might plan steps to complete a task (search a website, fill a form, send an email). As IBM explains, “An AI agent is a system that autonomously performs tasks by designing workflows with available tools”. Agents typically consist of:
+4. High-Level Architecture
+   - Major components
+   - Responsibilities of each component
+   - How components communicate
 
-An LLM (the “brain”).
-A toolset (APIs, custom functions, external services).
-An orchestrator loop: The agent reads input, decides which tool to use (and with what arguments), executes the tool (e.g. web search, calculator, database query), gets results, and possibly loops for more steps until a goal is reached.
-Agents require state management and often a memory component (e.g. storing earlier user messages or intermediate results in a database or vector memory). Frameworks like LangChain, AutoGPT, or OpenAI’s new [Agent SDKs] provide building blocks for common patterns (prompt-template chains, memory buffers, tool wrappers). In practice, you’d define tools as Python functions or HTTP calls and register them; the LLM learns (via prompts) to call them when needed.
+5. Detailed Component Design
+   For every major component:
+   - Responsibility
+   - Inputs
+   - Outputs
+   - Dependencies
+   - Important interfaces
+   - Failure behavior
 
-Prompting & Workflow: Complex tasks can be broken into chains or workflows (e.g. ReAct: reasoning + acting). You might first prompt “Plan steps to answer X,” then loop through steps. Modern frameworks let you do function calling (structuring LLM output as JSON to call code) or ReAct agents (Reason + Act cycles). For example, LangChain supports ReAct-style agents where the LLM outputs an action like {"action": "search", "query": "AI trends 2025"}, your code runs the search, returns results to the LLM for the next reasoning step.
+6. End-to-End Data Flows
+   Describe the important flows from input → processing → storage/service → output.
 
-When not to call it an agent: Merely using an LLM to generate output is not an “agent.” An agent has agency: it loops, checks conditions, chooses actions. If your app just forwards prompts and returns results, that’s a generator/API, not an autonomous agent. Be precise in your evaluation answers.
+7. Data Architecture
+   - Major entities
+   - Storage requirements
+   - Data lifecycle
+   - Persistence vs transient data
+   - Data relationships
+   Do not create unnecessary schemas unless required.
 
-GenAI Tools & Frameworks: Use proven libraries for speed:
+8. API / Interface Design
+   - Important APIs/interfaces
+   - Request/response responsibilities
+   - Authentication/authorization considerations
+   - External integrations
 
-LangChain (Python/JS): chains prompts, integrates LLMs with tools, supports memory and RAG.
-LlamaIndex (formerly GPT-Index): focuses on data ingestion and indexing for RAG.
-OpenAI Functions/Tools: define functions that the LLM can call (e.g. Python functions in ChatGPT via function schema).
-Vector DBs: Qdrant, Pinecone, pgvector (Postgres extension) for embedding storage.
-ML Libraries: scikit-learn for traditional ML, Hugging Face Transformers for custom model use.
-Deployment: Docker for containerizing models, Kubernetes or cloud services (AWS SageMaker, Azure ML, GCP Vertex) for hosting.
-Guardrails & AI Safety
-Deploying LLMs or agents safely requires guardrails: rules and checks that keep the system within bounds. Guardrails can be both rule-based (e.g. regex filters, whitelists) and AI-based (secondary models or classifiers).
+9. AI/ML Architecture
+   If applicable:
+   - Model/component responsibilities
+   - Input/output
+   - Retrieval/context flow
+   - Agent/tool interactions
+   - Evaluation
+   - Guardrails
+   - Explainability
+   - Failure/fallback behavior
+   Do not introduce AI components unless justified by the PRD/design.
 
-Input guardrails: Before sending a prompt to the LLM, check it. Block malicious inputs (like prompt injections), detect PII or disallowed content, enforce formats/schema. For example, reject any user prompt containing social security numbers via regex, or filter out profanity. Datadog notes this is a first line of defense to catch attacks like prompt injection. You may also use simple LLM classifiers or patterns to reject irrelevant or off-topic queries.
-Prompt construction guardrails: Embed rules into your prompt templates. For example, prepend instructions like “Only use the provided documents as reference” or include the user’s ID and role so the agent respects access controls. IBM suggests using prefix prompts to “teach the LLM how to detect attacks” or stay within domain boundaries.
-Tool authorization guardrails: If your agent can call powerful tools (e.g. delete database rows, send emails), always verify the action. For example, wrap each tool call with checks: does the user have permission? Is the action sane? You might require a second LLM check or human approval for irreversible actions. As Datadog notes, guardrails can “wrap tool invocations” to verify credentials and safety.
-Output guardrails: After the LLM generates text, run post-filters. Remove or redact any leaked secrets (e.g. API keys) using regex or classifiers. Check for toxicity or hallucination. For example, use a second LLM call or content-moderation model to flag disallowed content. Datadog advises using regex filters or ML classifiers to scrub outputs.
-Security vs. Safety: Implement both. Security guardrails focus on preventing data leaks, injections, unauthorized actions (OWASP LLM security threats like “Prompt Injection” or “Data Exfiltration”). Safety guardrails prevent harmful, biased or irrelevant outputs (to protect user experience and compliance). Both should be part of design.
-Frameworks: Besides manual checks, frameworks exist (e.g. IBM’s NeMo Guardrails, Microsoft’s Safe Completion, OpenAI’s [Moderation API]). However, simple Python/Pydantic schemas can be surprisingly effective for structured output: ask the LLM to return JSON that you parse with Pydantic, rejecting invalid responses.
-Why guardrails matter: They define boundaries for your AI. In practice, a lack of input/output validation can easily lead to embarrassing or dangerous failures. Building robust guardrails demonstrates maturity in engineering.
+10. Security Architecture
+   - Authentication
+   - Authorization
+   - Secrets
+   - Data protection
+   - Access boundaries
+   - Audit requirements
 
-Model Evaluation & Monitoring
-Building an AI service is one thing; verifying it works is another. You need systematic evaluation:
+11. Reliability & Error Handling
+   - Failure points
+   - Retry/fallback strategy
+   - Graceful degradation
+   - Human intervention where required
 
-Offline evaluation: Create a test dataset of example inputs with expected outputs (ground truth). For classification/regression, measure accuracy, precision/recall, F1, ROC-AUC, or appropriate errors (MAE/RMSE). For example, keep a hold-out test set of labeled transactions to compute fraud-detection metrics.
+12. Observability
+   - Logging
+   - Metrics
+   - Tracing
+   - Audit logs
+   - Important events to monitor
 
-Online evaluation: Monitor live performance (accuracy drift, latency, cost). Log predictions and, when possible, compare them to eventual outcomes (back-testing). Key signals to watch:
+13. Deployment Architecture
+   - Runtime components
+   - Environment separation
+   - Configuration
+   - Deployment assumptions
 
-Data drift: Compare current input feature distributions to training data. Significant shifts often foreshadow degraded accuracy. For example, if customer behavior changes after a pandemic, your old model might mispredict.
-Concept drift: Check if the relationship between input and output changes (e.g. older model logic no longer holds). This often requires retraining with fresh data.
-Prediction drift: Monitor the distribution of model outputs. Sudden changes could indicate problems upstream.
-Metrics by task: Choose metrics that reflect business value. E.g. for loan approval, high precision (few bad loans) may matter more than recall. Plot these metrics over time; alert on significant drops.
+14. Technology Decisions
+   For every major technology choice:
+   - Technology
+   - Why it is needed
+   - Alternatives considered
+   - Trade-offs
 
-LLM/Agent evaluation: Traditional metrics are limited for open-ended AI. For LLM responses, you may use BLEU/ROUGE for generated text, but often human or heuristic judgement is needed. For agents, evaluation is multi-layered:
+15. Scalability Considerations
+   - Current MVP needs
+   - What could become a bottleneck
+   - How the architecture could evolve
 
-Final answer (black-box): Is the agent’s ultimate output correct/relevant? Score each test case (e.g. JSON with “correct” or a rubric).
-Trajectory (glass-box): Did the agent take the right sequence of actions/tools? Compare its tool calls to the expected plan.
-Single-step (white-box): Check each individual decision (e.g. was the chosen tool appropriate? was the search query relevant?) in isolation.
-Langfuse recommends using all three evaluation levels together for agents. For instance, if an agent is supposed to answer a user’s question via web search and summarization, you would check not only the final answer, but whether it searched for the right terms and correctly synthesized the source.
+16. Architecture Risks & Trade-offs
+   - Technical risks
+   - Operational risks
+   - Architectural compromises
 
-Automated evaluation frameworks: Use tools to streamline this. LangSmith, Arize, Weights & Biases or OpenAI’s Evals can run batched tests: feed your agent a set of inputs and automatically score responses. This can be integrated into CI/CD pipelines to catch regressions (e.g. “did this new model version drop the answer score below threshold?”).
+17. Requirements Traceability
+   - Map major architecture components back to PRD requirements
+   - Map them to relevant sections of DESIGN.md
 
-Observability: Instrument your system. Log LLM inputs/outputs, tool calls, latencies, error rates, token usage, and costs. Dashboards should show throughput (reqs/sec), 99th-percentile latency, memory/CPU usage, and anomaly alerts. If a user complains the agent gave a wrong answer, you should replay the exact sequence from logs to diagnose the issue.
+18. Open Questions / Decisions Required
+   - Anything that must be clarified before implementation
 
-By combining traditional ML metrics with tailored LLM/agent evaluation, you ensure your AI is both effective and safe before it’s made available.
+Before writing ARCHITECTURE.md:
+1. Check PRD.md for requirements.
+2. Check DESIGN.md for intended behavior.
+3. Identify contradictions between them.
+4. Identify missing information.
+5. Do not silently resolve significant contradictions.
+6. Keep the architecture appropriate for the project's actual scope.
 
-System Architecture & Design
-AI applications must scale and perform in production. Key design considerations:
+Create/update only ARCHITECTURE.md.
 
-Stateless services: Design APIs and ML services to be stateless. This allows you to horizontal scale by adding more instances behind a load balancer. For example, if your image-captioning API slows down under load, spin up more containers. Use a load balancer (AWS ELB, nginx) to distribute traffic evenly.
-Vertical vs. Horizontal scaling: Vertical scaling means beefing up a single machine’s CPU/RAM; horizontal means adding more machines. Horizontal is generally more flexible for web/ML services (though GPU servers are often scaled vertically). Plan for both: e.g. you might choose a larger GPU instance for heavy training tasks, and many smaller nodes for inference.
-Caching: Caches dramatically reduce latency. Common pattern: put Redis or Memcached in front of a database or a costly computation. As one source notes, “reading a user profile from Postgres may take 50ms, but from Redis just 1ms – a 50× improvement”. Cache hot data (like frequent queries) and use TTLs or LRU eviction. Remember: caching introduces complexity (invalidation, consistency) but is essential for high-read volumes.
-Database design: Use appropriate data stores:
-SQL (PostgreSQL/MySQL) when you need complex queries, transactions, or relational data. Use indexes on query-heavy fields for speed.
-NoSQL (MongoDB, DynamoDB, Cassandra) for flexible schemas or massive write/read scaling.
-Vector DB: For embeddings (in RAG), use specialized stores (e.g. Qdrant, Pinecone, pgvector in Postgres). These provide efficient nearest-neighbor search.
-Plan for sharding or replication as load grows: e.g., a read replica cluster to handle query load, or partition data by key if one table becomes a hotspot.
-Microservices & modularity: Break the system into services (e.g. user service, AI service, analytics). Each service can be scaled independently. Use an API gateway to route requests and handle cross-cutting concerns (auth, rate-limiting). Microservices talk via REST/HTTP or gRPC; require proper versioning and documentation.
-Messaging & async processing: For tasks that can be decoupled (batch jobs, heavy computation), use message queues (RabbitMQ, Kafka). For example, an agent’s response might be computed asynchronously and then notified to the user. Queues help absorb spikes and increase throughput.
-Latency vs. Throughput: Minimize latency for interactive features (use caches, smaller models, parallel calls), and maximize throughput for batch jobs (bulk processing, vectorized ops). Track both metrics: latency = time per request; throughput = requests per second. Design for your primary need.
-Reliability & fault tolerance: Deploy services in multiple availability zones or regions to survive failures. Implement retries with exponential backoff, circuit breakers, and idempotent operations where possible. For example, if an ML model call fails, the system might retry or fall back to a simpler model.
-Examples of scale strategies: High-traffic APIs often use stateless replicas + load balancer + auto-scaling. Data stores may use read/write separation (master-slave replication) or CQRS patterns. Caches (Redis) are clustered. If using Kubernetes, leverage auto-scaling and health checks.
-Security: Use HTTPS, authentication (OAuth/JWT tokens), and authorization (role-based access). Protect secrets (don’t hardcode API keys, use vaults). If agents call third-party APIs, ensure credentials are secure and actions audited.
-Monitoring & Logging: Integrate logs (via ELK or Datadog/Prometheus) and metrics for every component. Instrument request durations, error counts, ML model confidence, etc. Consider distributed tracing (OpenTelemetry) to follow a request across services. Alert on threshold breaches (e.g. CPU > 80%, error rate spike, model QPS drop).
-By thoughtfully designing for scale and reliability from the start, you avoid surprises when usage grows. System design questions look for exactly this kind of planning (statelessness, caching, queues, failover, etc.).
 
-Software Engineering Best Practices
-Building robust AI services also demands good software engineering:
 
-API Design: Use REST or gRPC with clear contracts. For REST: define resource-based endpoints, use proper HTTP methods (GET for read, POST for create, etc.), and return meaningful status codes. Employ input validation (e.g. Pydantic models in FastAPI) to ensure requests meet expected schema. For example, a FastAPI endpoint might use a UserIn Pydantic model to parse JSON and automatically reject invalid payloads.
-Frameworks:
-FastAPI: Modern Python web framework. Pros: built-in data validation (Pydantic), async support, auto-generated docs. Good for serving ML models (e.g. inference endpoints).
-Flask: Lightweight older framework (WSGI). Simpler but requires more manual setup (validation, async handling). Use it for simple APIs or prototyping.
-When choosing, consider team familiarity and need for async. For new projects, FastAPI is often preferred.
-Databases: Interact via ORMs (SQLAlchemy) or raw SQL as appropriate. Manage connections with pools. Write migration scripts (Alembic) for schema changes.
-Version Control & Code Quality: Use Git (with feature branches, pull requests, code reviews). Follow a style guide (PEP8 for Python). Write clear, modular code and docstrings.
-Testing:
-Unit tests for business logic and utility functions (e.g. data preprocessors, postprocessors).
-Integration tests for API endpoints (e.g. using pytest + test client) and full ML pipelines (possibly with dummy models).
-Regression tests for models/agents: freeze a small test set of prompts and expected answers. Run it whenever you update prompts or models to ensure no unintended changes.
-CI/CD: Automate builds and tests using GitHub Actions, Jenkins, etc. Upon merging to main, run linter and tests. On success, deploy to staging; after a manual check or automated smoke test, deploy to production. Dockerize services to standardize environments. Use versioned deployments (e.g. v1.0, canary releases).
-Documentation: Maintain API docs (Swagger/OpenAPI), and README/docs for system architecture and setup. Well-documented code is crucial for team collaboration.
-Having strong engineering practices ensures that your AI solution is maintainable and reliable, not just a one-off prototype.
+Read PRD.md completely before doing anything.
 
-Data & ML Engineering (MLOps)
-Data pipelines: Automate data collection and preprocessing. Use tools like Apache Airflow, Prefect or even cron jobs to extract-transform-load (ETL) data into training and inference stores. For example, a pipeline might ingest new user logs daily, clean and aggregate features, and store them in a feature store or database.
-Feature engineering: Build reproducible feature transforms (e.g. scaling, encoding, outlier removal). Keep transformations consistent between training and serving (e.g. use the same scaler object in inference).
-Model training & deployment: Structure ML code so that training, evaluation, and deployment are reproducible. Use model registries (MLflow, DVC, or cloud model registry) to track versions. For deployment, you might containerize the trained model as an API (using FastAPI or BentoML). Keep separate environments (dev/staging/prod) and promote models systematically.
-Continuous training: If data drifts, set up a pipeline to retrain models (or update indexes) on new data. This might be scheduled (e.g. nightly retraining) or triggered by performance drops.
-Monitoring: As in evaluation, monitor drift and performance in production. Tools like Evidently.ai or custom dashboards can track input feature statistics over time. Alert engineers if any feature shifts beyond threshold.
-Scalable storage: For large datasets, use data warehouses (BigQuery, Snowflake) or data lakes (S3/Databricks). For streaming data, consider Kafka/Kinesis pipelines.
-MLOps tooling: Explore platforms like Kubeflow (for Kubernetes-based ML pipelines), MLflow (experiment tracking & model registry), Seldon/MLRun for model serving, or cloud-managed MLOps (AWS SageMaker Pipelines, Azure ML).
-Logging & Observability: Log every inference: input, output, model version. Tag logs with request IDs so you can trace issues. Use monitoring (Datadog, Prometheus) to record model-specific metrics (e.g. classification confidence histograms).
-Example: A fraud-detection MLOps workflow might: (1) daily aggregate transactions to create training features, (2) retrain and validate model on latest labeled data, (3) register the new model version if it passes benchmarks, (4) deploy it (via a container or as a SageMaker endpoint), and (5) continuously log predictions vs actual outcomes for monitoring.
-Explainable AI (XAI)
-For many applications (especially in finance, healthcare, etc.), you must explain model decisions:
+Your task is to create a comprehensive DESIGN.md for this project.
 
-Feature importance (global): Shows which features are most influential overall. Techniques include permutation importance or SHAP values aggregated over many samples.
-Local explanations: For a single prediction, use SHAP or LIME.
-SHAP (Shapley Additive Explanations): Based on game theory, it assigns each feature a contribution value (positive or negative) such that they sum to the model output. SHAP is considered robust (“gold standard”) but can be computationally intensive.
-LIME: Fits a simple surrogate (e.g. linear) model locally around the instance to explain predictions. It weights samples by similarity to the input. The key difference is that SHAP weights instances to compute true Shapley values, while LIME uses distance-based weights.
-Counterfactual explanations: Instead of attributing features, these show what minimal changes to the input would change the prediction. E.g. “If the loan applicant’s salary were $5,000 higher, the risk would be low instead of high.” This is useful to suggest actionable changes.
-Tools: Libraries like SHAP, ELI5, or Alibi can compute feature attributions. For counterfactuals, libraries like Alibi-Detect offer algorithms. For tree-based models, built-in feature importance (gains) is another signal.
-Interpretability vs explainability: Understand whether your stakeholders need global insights (model behavior) or local (individual decisions). Report whichever is relevant.
-Best practice: Always validate explanations. For example, check that the important features make sense (domain expertise). If a model is “stochastic” like an LLM, XAI often focuses on structured components (e.g. input embeddings or retrieval quality).
-XAI techniques help build trust. During an evaluation, be prepared to explain how your model arrives at decisions and how you’d debug or improve it based on explanations.
+Important:
+- Do NOT write implementation code.
+- Do NOT make technology/framework choices unless they are explicitly required by the PRD.
+- Treat PRD.md as the source of truth for requirements.
+- If something is ambiguous or missing, explicitly identify it instead of silently inventing requirements.
+- Focus on WHAT the system should do and HOW users/system actors should experience and interact with it.
+- Separate confirmed requirements from proposed design decisions.
 
-Software Lifecycle & Communication
-SDLC: Follow standard development life cycle: requirements → design → implementation → testing → deployment → monitoring. Use Agile practices (sprints, standups) if in a team.
-Code Quality: Write modular, reusable code. Use linters (pylint/flake8), type hints (mypy) and write meaningful unit tests. Peer code reviews catch issues early.
-Documentation: Maintain clear READMEs, API docs, and design docs. Well-documented systems are easier to maintain and debug.
-Technical communication: Be ready to explain and justify your solutions. When presenting a design, use diagrams and be concise. If an interviewer asks “why this approach?”, answer with rationale (e.g. “we use a vector DB instead of just Postgres because it’s optimized for similarity search which our RAG needs”).
-Versioning & collaboration: Use Git with feature branches. Tag releases. If infra-as-code is involved (Docker, Terraform), version those too.
-Testing: In addition to unit tests, write integration tests that start up your service (or a subset) and test end-to-end workflows. For ML, consider smoke tests: e.g. test the API returns responses for known queries.
-Observability: Include logging at key points (API endpoints hit, model load events, errors). Use structured logs (JSON) if possible so logs can be parsed by log management tools.
-Good software practices ensure your AI system isn’t a “black box” in code, and that other engineers can maintain and extend it.
+DESIGN.md should cover:
 
-Tools & Frameworks (Summary)
-To implement the above, be familiar with these technologies (examples):
+1. Design Overview
+   - Purpose of the system
+   - Primary users/actors
+   - Core user goals
 
-Programming & APIs: Python (AsyncIO), FastAPI or Flask (web services), Pydantic (validation).
-AI/ML: scikit-learn, XGBoost (traditional ML); PyTorch/TensorFlow (deep learning); Hugging Face Transformers (LLMs); OpenAI/Anthropic/Claude APIs.
-Prompt/Agent Frameworks: LangChain, LlamaIndex, AutoGPT/AutoGen, OpenAI Agents API.
-Vector Databases: Qdrant, Pinecone, Chroma, or PGVector (Postgres extension) for storing embeddings.
-Databases: PostgreSQL/MySQL (SQL), MongoDB/Cassandra (NoSQL), Redis (cache and sometimes fast key-value store).
-MLOps: Docker, Kubernetes (for scaling services); MLflow, Weights&Biases (experiment tracking); Airflow/Prefect (pipelines); GitHub Actions/Jenkins (CI/CD).
-Monitoring & DevOps: Prometheus/Grafana or Datadog (metrics), ELK or Splunk (logs), OpenTelemetry (tracing).
-XAI: SHAP, LIME, ELI5 libraries for explanations.
-Security: OAuth/JWT libraries, Vault or AWS Secrets Manager, regression tests for policy compliance.
-Each tool has alternatives. For example, instead of LangChain you could use LlamaIndex+FastAPI directly, or a Google or Azure RAG service. Know why you choose one: e.g. FastAPI for Python-native async APIs, Docker for reproducible deployment, etc.
+2. User Journeys
+   - Describe the major end-to-end workflows
+   - Include the normal/expected flow
+   - Include important alternative and failure flows
 
-Key Takeaways
-Answer the right question. Start every solution with clear requirements and a simple high-level design. Don’t jump into coding or picking models until you understand the goal.
-Leverage AI appropriately. Choose between rule-based, traditional ML, fine-tuned LLM, RAG or agentic approaches based on the problem. AI is a means to an end, not the default answer.
-Design for scale and reliability. Use stateless services, horizontal scaling, caching, queues, and DB replication. Prepare to discuss handling 10× load or failover.
-Implement solid engineering. Build APIs (e.g. with FastAPI) with validation, version control, testing, and CI/CD. Use containerization (Docker) for deployment.
-Secure and monitor your AI. Add guardrails at input, prompt, and output stages. Monitor performance, drift, errors, and costs.
-Evaluate rigorously. Test your models on diverse datasets and use metrics appropriate to the business. For LLMs/agents, evaluate not just the final answer but each reasoning step. Automate these tests when possible.
-Explain your decisions. Be prepared to justify why you chose a given architecture, algorithm, or parameter. Explain how you would improve or troubleshoot each component.
-With these principles and practices, you’ll be ready to design, build, and defend an AI-driven system in any assessment. The resources cited (above) offer deeper dives into each topic for further study.
+3. Functional Design
+   - Break the PRD requirements into logical features
+   - Describe inputs, outputs, actions, and expected behavior
+   - Explain how features interact with each other
 
-Sources: Authoritative AI and system-design references were used. For example, IBM and Datadog discuss RAG and guardrails, Langfuse documents agent evaluation strategies, and system-design primers outline best practices. These inform the guidance above.
+4. User/System Interaction
+   - What the user does
+   - What the system does in response
+   - Important states and transitions
+   - Approval/review/exception flows where applicable
+
+5. Data & Information Design
+   - What information the system needs
+   - Important entities/concepts
+   - Relationships between them
+   - Data lifecycle at a conceptual level
+   - Do NOT define database tables yet
+
+6. Business Rules
+   - Extract all business rules from the PRD
+   - Clearly distinguish explicit rules from proposed rules
+
+7. Error, Exception & Edge Cases
+   - Invalid inputs
+   - Missing data
+   - Processing failures
+   - Conflicting information
+   - Human intervention/review cases
+
+8. Explainability / Audit / Traceability
+   - If relevant to the PRD, describe what needs to be explainable,
+     auditable, or traceable
+   - Do not prescribe a specific implementation yet
+
+9. Non-Functional Design Considerations
+   - Security
+   - Privacy
+   - Performance
+   - Reliability
+   - Scalability
+   - Observability
+   Only include requirements supported by the PRD or clearly mark them as design considerations.
+
+10. Design Decisions & Open Questions
+   - List important decisions that need confirmation
+   - List assumptions
+   - List unresolved questions
+
+11. Traceability
+   - Map each major design element back to the relevant PRD requirement.
+
+Before writing the file, reason through the PRD and identify inconsistencies, missing requirements, and ambiguities.
+
+Create/update only DESIGN.md.
+Do not modify PRD.md.
+
+
+The project documentation is now prepared.
+
+Read and understand the following before starting:
+
+- PRD.md
+- DESIGN.md
+- ARCHITECTURE.md
+- AGENTS.md
+- Any existing project files and repository structure
+
+These documents define the project's requirements, intended behavior, technical architecture, constraints, and development guidelines.
+
+Use the configured agent/persona for this project to carry out the work according to its defined responsibilities and workflow.
+
+Treat:
+- PRD.md as the product requirements source of truth.
+- DESIGN.md as the product/design behavior source of truth.
+- ARCHITECTURE.md as the technical architecture source of truth.
+- AGENTS.md and the configured agent instructions as the execution/workflow guidelines.
+
+Do not unnecessarily modify or reinterpret these documents.
+
+First understand the complete project context and existing codebase, then proceed with the work according to the agent's defined workflow.
+
+If you encounter a genuine ambiguity, contradiction, or decision that requires my input, stop and ask me rather than making a significant assumption.
+
+Begin.
